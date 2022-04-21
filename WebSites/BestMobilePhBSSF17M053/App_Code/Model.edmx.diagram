@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fe5989cb5a964c80bbb73b9d9deba290" Name="Diagram1">
+        <EntityTypeShape EntityType="BestMobilePh53Model.tbleMobile" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BestMobilePh53Model.tblReferenceSite" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BestMobilePh53Model.tblSpecification" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BestMobilePh53Model.tblUser" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BestMobilePh53Model.tblUserType" Width="1.5" PointX="5.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="BestMobilePh53Model.FK_tblReferenceSite_tbleMobile" ManuallyRouted="false" />
+        <AssociationConnector Association="BestMobilePh53Model.FK_tblSpecification_tbleMobile" ManuallyRouted="false" />
+        <AssociationConnector Association="BestMobilePh53Model.FK_tblUsers_tblUserType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

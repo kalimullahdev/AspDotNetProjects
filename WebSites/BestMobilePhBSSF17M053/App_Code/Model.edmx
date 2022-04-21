@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BestMobilePh53Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbleMobile">
+          <Key>
+            <PropertyRef Name="MobileID" />
+          </Key>
+          <Property Name="MobileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MobileName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileDescription" Type="varchar" MaxLength="500" />
+          <Property Name="MobileImage" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblReferenceSite">
+          <Key>
+            <PropertyRef Name="ReferenceSiteID" />
+          </Key>
+          <Property Name="ReferenceSiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceSiteName" Type="varchar" MaxLength="50" />
+          <Property Name="ReferenceSiteLink" Type="varchar" MaxLength="100" />
+          <Property Name="MobileID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblSpecification">
+          <Key>
+            <PropertyRef Name="SpecificationID" />
+          </Key>
+          <Property Name="SpecificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FrontCamera" Type="varchar" MaxLength="50" />
+          <Property Name="BackCamera" Type="varchar" MaxLength="50" />
+          <Property Name="Processor" Type="varchar" MaxLength="50" />
+          <Property Name="RAM" Type="varchar" MaxLength="50" />
+          <Property Name="Storage" Type="varchar" MaxLength="50" />
+          <Property Name="OS" Type="varchar" MaxLength="50" />
+          <Property Name="BatteryCapacity" Type="varchar" MaxLength="50" />
+          <Property Name="MobileID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="UsersID" />
+          </Key>
+          <Property Name="UsersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UserTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUserType">
+          <Key>
+            <PropertyRef Name="UserTypeID" />
+          </Key>
+          <Property Name="UserTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tblReferenceSite_tbleMobile">
+          <End Role="tbleMobile" Type="Self.tbleMobile" Multiplicity="0..1" />
+          <End Role="tblReferenceSite" Type="Self.tblReferenceSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbleMobile">
+              <PropertyRef Name="MobileID" />
+            </Principal>
+            <Dependent Role="tblReferenceSite">
+              <PropertyRef Name="MobileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSpecification_tbleMobile">
+          <End Role="tbleMobile" Type="Self.tbleMobile" Multiplicity="0..1" />
+          <End Role="tblSpecification" Type="Self.tblSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbleMobile">
+              <PropertyRef Name="MobileID" />
+            </Principal>
+            <Dependent Role="tblSpecification">
+              <PropertyRef Name="MobileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUsers_tblUserType">
+          <End Role="tblUserType" Type="Self.tblUserType" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUserType">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="DeleteMobile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUserType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DoLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllMobiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetLastSpeci" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetLastSpecID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="BestMobilePh53ModelStoreContainer">
+          <EntitySet Name="tbleMobile" EntityType="Self.tbleMobile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblReferenceSite" EntityType="Self.tblReferenceSite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSpecification" EntityType="Self.tblSpecification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserType" EntityType="Self.tblUserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblReferenceSite_tbleMobile" Association="Self.FK_tblReferenceSite_tbleMobile">
+            <End Role="tbleMobile" EntitySet="tbleMobile" />
+            <End Role="tblReferenceSite" EntitySet="tblReferenceSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSpecification_tbleMobile" Association="Self.FK_tblSpecification_tbleMobile">
+            <End Role="tbleMobile" EntitySet="tbleMobile" />
+            <End Role="tblSpecification" EntitySet="tblSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUsers_tblUserType" Association="Self.FK_tblUsers_tblUserType">
+            <End Role="tblUserType" EntitySet="tblUserType" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BestMobilePh53Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbleMobile">
+          <Key>
+            <PropertyRef Name="MobileID" />
+          </Key>
+          <Property Name="MobileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MobileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MobileImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblReferenceSites" Relationship="Self.FK_tblReferenceSite_tbleMobile" FromRole="tbleMobile" ToRole="tblReferenceSite" />
+          <NavigationProperty Name="tblSpecifications" Relationship="Self.FK_tblSpecification_tbleMobile" FromRole="tbleMobile" ToRole="tblSpecification" />
+        </EntityType>
+        <EntityType Name="tblReferenceSite">
+          <Key>
+            <PropertyRef Name="ReferenceSiteID" />
+          </Key>
+          <Property Name="ReferenceSiteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceSiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceSiteLink" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MobileID" Type="Int32" />
+          <NavigationProperty Name="tbleMobile" Relationship="Self.FK_tblReferenceSite_tbleMobile" FromRole="tblReferenceSite" ToRole="tbleMobile" />
+        </EntityType>
+        <EntityType Name="tblSpecification">
+          <Key>
+            <PropertyRef Name="SpecificationID" />
+          </Key>
+          <Property Name="SpecificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FrontCamera" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BackCamera" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Processor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RAM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Storage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BatteryCapacity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileID" Type="Int32" />
+          <NavigationProperty Name="tbleMobile" Relationship="Self.FK_tblSpecification_tbleMobile" FromRole="tblSpecification" ToRole="tbleMobile" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UsersID" />
+          </Key>
+          <Property Name="UsersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblUserType" Relationship="Self.FK_tblUsers_tblUserType" FromRole="tblUsers" ToRole="tblUserType" />
+        </EntityType>
+        <EntityType Name="tblUserType">
+          <Key>
+            <PropertyRef Name="UserTypeID" />
+          </Key>
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblUsers_tblUserType" FromRole="tblUserType" ToRole="tblUsers" />
+        </EntityType>
+        <Association Name="FK_tblReferenceSite_tbleMobile">
+          <End Role="tbleMobile" Type="Self.tbleMobile" Multiplicity="0..1" />
+          <End Role="tblReferenceSite" Type="Self.tblReferenceSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbleMobile">
+              <PropertyRef Name="MobileID" />
+            </Principal>
+            <Dependent Role="tblReferenceSite">
+              <PropertyRef Name="MobileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSpecification_tbleMobile">
+          <End Role="tbleMobile" Type="Self.tbleMobile" Multiplicity="0..1" />
+          <End Role="tblSpecification" Type="Self.tblSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbleMobile">
+              <PropertyRef Name="MobileID" />
+            </Principal>
+            <Dependent Role="tblSpecification">
+              <PropertyRef Name="MobileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUsers_tblUserType">
+          <End Role="tblUserType" Type="Self.tblUserType" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUserType">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BestMobilePh53Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbleMobiles" EntityType="Self.tbleMobile" />
+          <EntitySet Name="tblReferenceSites" EntityType="Self.tblReferenceSite" />
+          <EntitySet Name="tblSpecifications" EntityType="Self.tblSpecification" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblUserTypes" EntityType="Self.tblUserType" />
+          <AssociationSet Name="FK_tblReferenceSite_tbleMobile" Association="Self.FK_tblReferenceSite_tbleMobile">
+            <End Role="tbleMobile" EntitySet="tbleMobiles" />
+            <End Role="tblReferenceSite" EntitySet="tblReferenceSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSpecification_tbleMobile" Association="Self.FK_tblSpecification_tbleMobile">
+            <End Role="tbleMobile" EntitySet="tbleMobiles" />
+            <End Role="tblSpecification" EntitySet="tblSpecifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUsers_tblUserType" Association="Self.FK_tblUsers_tblUserType">
+            <End Role="tblUserType" EntitySet="tblUserTypes" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+          <FunctionImport Name="DeleteMobile">
+          <Parameter Name="mid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUser">
+          <Parameter Name="uid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUserType">
+          <Parameter Name="uid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllMobiles" ReturnType="Collection(BestMobilePh53Model.GetAllMobiles_Result)" />
+          <FunctionImport Name="GetAllUsers" ReturnType="Collection(BestMobilePh53Model.GetAllUsers_Result)" />
+          <FunctionImport Name="GetAUser" ReturnType="Collection(BestMobilePh53Model.GetAUser_Result)">
+          <Parameter Name="uid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetLastSpeci" />
+          <FunctionImport Name="GetLastSpecID" />
+          <FunctionImport Name="GetUserType" ReturnType="Collection(BestMobilePh53Model.GetUserType_Result)" />
+          <FunctionImport Name="DoLogin" ReturnType="Collection(BestMobilePh53Model.DoLogin_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetAllMobiles_Result">
+          <Property Type="Int32" Name="MobileID" Nullable="false" />
+          <Property Type="String" Name="MobileName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MobileDescription" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MobileImage" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetAllUsers_Result">
+          <Property Type="Int32" Name="UsersID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Status" Nullable="true" />
+          <Property Type="Int32" Name="UserTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAUser_Result">
+          <Property Type="Int32" Name="UsersID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Status" Nullable="true" />
+          <Property Type="Int32" Name="UserTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserType_Result">
+          <Property Type="Int32" Name="UserTypeID" Nullable="false" />
+          <Property Type="String" Name="UserTypeName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="DoLogin_Result">
+          <Property Type="Int32" Name="UsersID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Status" Nullable="true" />
+          <Property Type="Int32" Name="UserTypeID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BestMobilePh53ModelStoreContainer" CdmEntityContainer="BestMobilePh53Entities">
+          <EntitySetMapping Name="tbleMobiles">
+            <EntityTypeMapping TypeName="BestMobilePh53Model.tbleMobile">
+              <MappingFragment StoreEntitySet="tbleMobile">
+                <ScalarProperty Name="MobileID" ColumnName="MobileID" />
+                <ScalarProperty Name="MobileName" ColumnName="MobileName" />
+                <ScalarProperty Name="MobileDescription" ColumnName="MobileDescription" />
+                <ScalarProperty Name="MobileImage" ColumnName="MobileImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblReferenceSites">
+            <EntityTypeMapping TypeName="BestMobilePh53Model.tblReferenceSite">
+              <MappingFragment StoreEntitySet="tblReferenceSite">
+                <ScalarProperty Name="ReferenceSiteID" ColumnName="ReferenceSiteID" />
+                <ScalarProperty Name="ReferenceSiteName" ColumnName="ReferenceSiteName" />
+                <ScalarProperty Name="ReferenceSiteLink" ColumnName="ReferenceSiteLink" />
+                <ScalarProperty Name="MobileID" ColumnName="MobileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSpecifications">
+            <EntityTypeMapping TypeName="BestMobilePh53Model.tblSpecification">
+              <MappingFragment StoreEntitySet="tblSpecification">
+                <ScalarProperty Name="SpecificationID" ColumnName="SpecificationID" />
+                <ScalarProperty Name="FrontCamera" ColumnName="FrontCamera" />
+                <ScalarProperty Name="BackCamera" ColumnName="BackCamera" />
+                <ScalarProperty Name="Processor" ColumnName="Processor" />
+                <ScalarProperty Name="RAM" ColumnName="RAM" />
+                <ScalarProperty Name="Storage" ColumnName="Storage" />
+                <ScalarProperty Name="OS" ColumnName="OS" />
+                <ScalarProperty Name="BatteryCapacity" ColumnName="BatteryCapacity" />
+                <ScalarProperty Name="MobileID" ColumnName="MobileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="BestMobilePh53Model.tblUser">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserTypes">
+            <EntityTypeMapping TypeName="BestMobilePh53Model.tblUserType">
+              <MappingFragment StoreEntitySet="tblUserType">
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteMobile" FunctionName="BestMobilePh53Model.Store.DeleteMobile" />
+          <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="BestMobilePh53Model.Store.DeleteUser" />
+          <FunctionImportMapping FunctionImportName="DeleteUserType" FunctionName="BestMobilePh53Model.Store.DeleteUserType" />
+          <FunctionImportMapping FunctionImportName="GetAllMobiles" FunctionName="BestMobilePh53Model.Store.GetAllMobiles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BestMobilePh53Model.GetAllMobiles_Result">
+                <ScalarProperty Name="MobileID" ColumnName="MobileID" />
+                <ScalarProperty Name="MobileName" ColumnName="MobileName" />
+                <ScalarProperty Name="MobileDescription" ColumnName="MobileDescription" />
+                <ScalarProperty Name="MobileImage" ColumnName="MobileImage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllUsers" FunctionName="BestMobilePh53Model.Store.GetAllUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BestMobilePh53Model.GetAllUsers_Result">
+                <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAUser" FunctionName="BestMobilePh53Model.Store.GetAUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BestMobilePh53Model.GetAUser_Result">
+                <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLastSpeci" FunctionName="BestMobilePh53Model.Store.GetLastSpeci" />
+          <FunctionImportMapping FunctionImportName="GetLastSpecID" FunctionName="BestMobilePh53Model.Store.GetLastSpecID" />
+          <FunctionImportMapping FunctionImportName="GetUserType" FunctionName="BestMobilePh53Model.Store.GetUserType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BestMobilePh53Model.GetUserType_Result">
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DoLogin" FunctionName="BestMobilePh53Model.Store.DoLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BestMobilePh53Model.DoLogin_Result">
+                <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

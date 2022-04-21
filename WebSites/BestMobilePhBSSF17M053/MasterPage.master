@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder id="title" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </title>
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/masterPageCSS.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="Default.aspx">BestMobilePh_053</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse form-inline" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+              <li class="nav-item border border-white rounded px-2 mx-3 active">
+                <a class="nav-link " href="Users.aspx">Users</a>
+              </li>
+              <li class="nav-item border border-white rounded px-2 mx-3 active">
+                <a class="nav-link" href="UserType.aspx">UserType</a>
+              </li>
+              <li class="nav-item border border-white rounded px-2 mx-3 active">
+                <a class="nav-link" href="Mobiles.aspx">Mobile</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <asp:ContentPlaceHolder id="body" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+
+    </form>
+
+</body>
+</html>

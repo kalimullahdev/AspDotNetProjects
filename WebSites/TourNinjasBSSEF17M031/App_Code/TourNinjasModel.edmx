@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TourNinjasDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tableCity">
+          <Key>
+            <PropertyRef Name="cityID" />
+          </Key>
+          <Property Name="cityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cityName" Type="varchar" MaxLength="50" />
+          <Property Name="cityDescription" Type="varchar" MaxLength="50" />
+          <Property Name="cityCountry" Type="int" />
+        </EntityType>
+        <EntityType Name="tableCountry">
+          <Key>
+            <PropertyRef Name="cityCountry" />
+          </Key>
+          <Property Name="cityCountry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cityCountryName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tableRestaurants">
+          <Key>
+            <PropertyRef Name="restaurantID" />
+          </Key>
+          <Property Name="restaurantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurantName" Type="varchar" MaxLength="50" />
+          <Property Name="restaurantDescription" Type="varchar" MaxLength="500" />
+          <Property Name="restaurantImage" Type="varchar" MaxLength="50" />
+          <Property Name="cityID" Type="int" />
+        </EntityType>
+        <EntityType Name="tableUsers">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="userTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tableUsersType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userTypeName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_tableCity_tableCountry">
+          <End Role="tableCountry" Type="Self.tableCountry" Multiplicity="0..1" />
+          <End Role="tableCity" Type="Self.tableCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCountry">
+              <PropertyRef Name="cityCountry" />
+            </Principal>
+            <Dependent Role="tableCity">
+              <PropertyRef Name="cityCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tableRestaurants_tableCity">
+          <End Role="tableCity" Type="Self.tableCity" Multiplicity="0..1" />
+          <End Role="tableRestaurants" Type="Self.tableRestaurants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCity">
+              <PropertyRef Name="cityID" />
+            </Principal>
+            <Dependent Role="tableRestaurants">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tableUsers_tableUsersType">
+          <End Role="tableUsersType" Type="Self.tableUsersType" Multiplicity="1" />
+          <End Role="tableUsers" Type="Self.tableUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUsersType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="tableUsers">
+              <PropertyRef Name="userTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="deleteRestaurants" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteUserType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usertypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllUserTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getCities" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getCityRestaurants" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getCountry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getRestaurants" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="TourNinjasDatabaseModelStoreContainer">
+          <EntitySet Name="tableCity" EntityType="Self.tableCity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableCountry" EntityType="Self.tableCountry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableRestaurants" EntityType="Self.tableRestaurants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableUsers" EntityType="Self.tableUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableUsersType" EntityType="Self.tableUsersType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tableCity_tableCountry" Association="Self.FK_tableCity_tableCountry">
+            <End Role="tableCountry" EntitySet="tableCountry" />
+            <End Role="tableCity" EntitySet="tableCity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tableRestaurants_tableCity" Association="Self.FK_tableRestaurants_tableCity">
+            <End Role="tableCity" EntitySet="tableCity" />
+            <End Role="tableRestaurants" EntitySet="tableRestaurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tableUsers_tableUsersType" Association="Self.FK_tableUsers_tableUsersType">
+            <End Role="tableUsersType" EntitySet="tableUsersType" />
+            <End Role="tableUsers" EntitySet="tableUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TourNinjasDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tableUser">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="userTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tableUsersType" Relationship="Self.FK_tableUsers_tableUsersType" FromRole="tableUsers" ToRole="tableUsersType" />
+        </EntityType>
+        <EntityType Name="tableUsersType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tableUsers" Relationship="Self.FK_tableUsers_tableUsersType" FromRole="tableUsersType" ToRole="tableUsers" />
+        </EntityType>
+        <Association Name="FK_tableUsers_tableUsersType">
+          <End Role="tableUsersType" Type="Self.tableUsersType" Multiplicity="1" />
+          <End Role="tableUsers" Type="Self.tableUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUsersType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="tableUsers">
+              <PropertyRef Name="userTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourNinjasDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tableUsers" EntityType="Self.tableUser" />
+          <EntitySet Name="tableUsersTypes" EntityType="Self.tableUsersType" />
+          <AssociationSet Name="FK_tableUsers_tableUsersType" Association="Self.FK_tableUsers_tableUsersType">
+            <End Role="tableUsersType" EntitySet="tableUsersTypes" />
+            <End Role="tableUsers" EntitySet="tableUsers" />
+          </AssociationSet>
+          <FunctionImport Name="DeleteUser">
+          <Parameter Name="userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getUsers" ReturnType="Collection(TourNinjasDatabaseModel.getUsers_Result)" />
+          <FunctionImport Name="GetAllUserTypes" ReturnType="Collection(TourNinjasDatabaseModel.GetAllUserTypes_Result)" />
+          <FunctionImport Name="deleteUserType">
+          <Parameter Name="usertypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tableCities" EntityType="TourNinjasDatabaseModel.tableCity" />
+          <EntitySet Name="tableCountries" EntityType="TourNinjasDatabaseModel.tableCountry" />
+          <AssociationSet Name="FK_tableCity_tableCountry" Association="TourNinjasDatabaseModel.FK_tableCity_tableCountry">
+            <End Role="tableCountry" EntitySet="tableCountries" />
+            <End Role="tableCity" EntitySet="tableCities" />
+          </AssociationSet>
+          <FunctionImport Name="getCities" ReturnType="Collection(TourNinjasDatabaseModel.getCities_Result)" />
+          <FunctionImport Name="getCountry" ReturnType="Collection(TourNinjasDatabaseModel.getCountry_Result)" />
+          <EntitySet Name="tableRestaurants" EntityType="TourNinjasDatabaseModel.tableRestaurant" />
+          <AssociationSet Name="FK_tableRestaurants_tableCity" Association="TourNinjasDatabaseModel.FK_tableRestaurants_tableCity">
+            <End Role="tableCity" EntitySet="tableCities" />
+            <End Role="tableRestaurant" EntitySet="tableRestaurants" />
+          </AssociationSet>
+          <FunctionImport Name="getRestaurants" ReturnType="Collection(TourNinjasDatabaseModel.getRestaurants_Result)" />
+          <FunctionImport Name="deleteRestaurants">
+          <Parameter Name="rid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getCityRestaurants" ReturnType="Collection(TourNinjasDatabaseModel.getCityRestaurants_Result)">
+            <Parameter Name="cid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="getUsers_Result">
+          <Property Type="Int32" Name="userID" Nullable="false" />
+          <Property Type="String" Name="firstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="lastName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="phoneNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllUserTypes_Result">
+          <Property Type="Int32" Name="userTypeID" Nullable="false" />
+          <Property Type="String" Name="userTypeName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="tableCity">
+          <Key>
+            <PropertyRef Name="cityID" />
+          </Key>
+          <Property Name="cityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cityDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cityCountry" Type="Int32" />
+          <NavigationProperty Name="tableCountry" Relationship="TourNinjasDatabaseModel.FK_tableCity_tableCountry" FromRole="tableCity" ToRole="tableCountry" />
+          <NavigationProperty Name="tableRestaurants" Relationship="TourNinjasDatabaseModel.FK_tableRestaurants_tableCity" FromRole="tableCity" ToRole="tableRestaurant" />
+        </EntityType>
+        <EntityType Name="tableCountry">
+          <Key>
+            <PropertyRef Name="cityCountry" />
+          </Key>
+          <Property Name="cityCountry" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cityCountryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tableCities" Relationship="TourNinjasDatabaseModel.FK_tableCity_tableCountry" FromRole="tableCountry" ToRole="tableCity" />
+        </EntityType>
+        <Association Name="FK_tableCity_tableCountry">
+          <End Type="TourNinjasDatabaseModel.tableCountry" Role="tableCountry" Multiplicity="0..1" />
+          <End Type="TourNinjasDatabaseModel.tableCity" Role="tableCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCountry">
+              <PropertyRef Name="cityCountry" />
+            </Principal>
+            <Dependent Role="tableCity">
+              <PropertyRef Name="cityCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="getCities_Result">
+          <Property Type="Int32" Name="cityID" Nullable="false" />
+          <Property Type="String" Name="cityName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="cityDescription" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="cityCountry" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCountry_Result">
+          <Property Type="Int32" Name="cityCountry" Nullable="false" />
+          <Property Type="String" Name="cityCountryName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="tableRestaurant">
+          <Key>
+            <PropertyRef Name="restaurantID" />
+          </Key>
+          <Property Name="restaurantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="restaurantDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="restaurantImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cityID" Type="Int32" />
+          <NavigationProperty Name="tableCity" Relationship="TourNinjasDatabaseModel.FK_tableRestaurants_tableCity" FromRole="tableRestaurant" ToRole="tableCity" />
+        </EntityType>
+        <Association Name="FK_tableRestaurants_tableCity">
+          <End Type="TourNinjasDatabaseModel.tableCity" Role="tableCity" Multiplicity="0..1" />
+          <End Type="TourNinjasDatabaseModel.tableRestaurant" Role="tableRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCity">
+              <PropertyRef Name="cityID" />
+            </Principal>
+            <Dependent Role="tableRestaurant">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="getRestaurants_Result">
+          <Property Type="Int32" Name="restaurantID" Nullable="false" />
+          <Property Type="String" Name="restaurantName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="restaurantDescription" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="restaurantImage" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="cityID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCityRestaurants_Result">
+          <Property Type="Int32" Name="restaurantID" Nullable="false" />
+          <Property Type="String" Name="restaurantName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="restaurantDescription" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="restaurantImage" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="cityID" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TourNinjasDatabaseModelStoreContainer" CdmEntityContainer="TourNinjasDatabaseEntities">
+          <EntitySetMapping Name="tableUsers">
+            <EntityTypeMapping TypeName="TourNinjasDatabaseModel.tableUser">
+              <MappingFragment StoreEntitySet="tableUsers">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tableUsersTypes">
+            <EntityTypeMapping TypeName="TourNinjasDatabaseModel.tableUsersType">
+              <MappingFragment StoreEntitySet="tableUsersType">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="TourNinjasDatabaseModel.Store.DeleteUser" />
+          <FunctionImportMapping FunctionImportName="getUsers" FunctionName="TourNinjasDatabaseModel.Store.getUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.getUsers_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllUserTypes" FunctionName="TourNinjasDatabaseModel.Store.GetAllUserTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.GetAllUserTypes_Result">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="deleteUserType" FunctionName="TourNinjasDatabaseModel.Store.deleteUserType" />
+          <EntitySetMapping Name="tableCities">
+            <EntityTypeMapping TypeName="TourNinjasDatabaseModel.tableCity">
+              <MappingFragment StoreEntitySet="tableCity">
+                <ScalarProperty Name="cityCountry" ColumnName="cityCountry" />
+                <ScalarProperty Name="cityDescription" ColumnName="cityDescription" />
+                <ScalarProperty Name="cityName" ColumnName="cityName" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tableCountries">
+            <EntityTypeMapping TypeName="TourNinjasDatabaseModel.tableCountry">
+              <MappingFragment StoreEntitySet="tableCountry">
+                <ScalarProperty Name="cityCountryName" ColumnName="cityCountryName" />
+                <ScalarProperty Name="cityCountry" ColumnName="cityCountry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getCities" FunctionName="TourNinjasDatabaseModel.Store.getCities">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.getCities_Result">
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+                <ScalarProperty Name="cityName" ColumnName="cityName" />
+                <ScalarProperty Name="cityDescription" ColumnName="cityDescription" />
+                <ScalarProperty Name="cityCountry" ColumnName="cityCountry" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCountry" FunctionName="TourNinjasDatabaseModel.Store.getCountry">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.getCountry_Result">
+                <ScalarProperty Name="cityCountry" ColumnName="cityCountry" />
+                <ScalarProperty Name="cityCountryName" ColumnName="cityCountryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tableRestaurants">
+            <EntityTypeMapping TypeName="TourNinjasDatabaseModel.tableRestaurant">
+              <MappingFragment StoreEntitySet="tableRestaurants">
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+                <ScalarProperty Name="restaurantImage" ColumnName="restaurantImage" />
+                <ScalarProperty Name="restaurantDescription" ColumnName="restaurantDescription" />
+                <ScalarProperty Name="restaurantName" ColumnName="restaurantName" />
+                <ScalarProperty Name="restaurantID" ColumnName="restaurantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getRestaurants" FunctionName="TourNinjasDatabaseModel.Store.getRestaurants">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.getRestaurants_Result">
+                <ScalarProperty Name="restaurantID" ColumnName="restaurantID" />
+                <ScalarProperty Name="restaurantName" ColumnName="restaurantName" />
+                <ScalarProperty Name="restaurantDescription" ColumnName="restaurantDescription" />
+                <ScalarProperty Name="restaurantImage" ColumnName="restaurantImage" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="deleteRestaurants" FunctionName="TourNinjasDatabaseModel.Store.deleteRestaurants" />
+          <FunctionImportMapping FunctionImportName="getCityRestaurants" FunctionName="TourNinjasDatabaseModel.Store.getCityRestaurants">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourNinjasDatabaseModel.getCityRestaurants_Result">
+                <ScalarProperty Name="restaurantID" ColumnName="restaurantID" />
+                <ScalarProperty Name="restaurantName" ColumnName="restaurantName" />
+                <ScalarProperty Name="restaurantDescription" ColumnName="restaurantDescription" />
+                <ScalarProperty Name="restaurantImage" ColumnName="restaurantImage" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
